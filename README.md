@@ -59,6 +59,8 @@ public interface IOperation extends Entity {
 
 ```
 
+Now that we have the basement of the solution we're implementing, we can start testing over to see how it performs.
+
 # Dependency Inversion
 
 We are going to provide the class logic to the adapters from in injection on the interface using Spring Boot

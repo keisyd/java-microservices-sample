@@ -6,21 +6,63 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import com.example.domain.interfaces.IOperation;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Value;
 
 import org.joda.money.Money;
 
+/**
+ * An operation on the walletId.
+ * 
+ * Can be any operation, but credit has the destinationId equals walletId
+ * and debit has originId equals walletId
+ */
+@Value
+@RequiredArgsConstructor
 public class Operation implements IOperation {
+    @Getter
+    @NonNull
     private UUID id;
+    @Getter
+    @NonNull
     private UUID walletId;
+    @Getter
+    @NonNull
+    private UUID originId;
+    @Getter
+    @NonNull
+    private UUID destinationId;
+    @Getter
+    @NonNull
     private String description;
+    @Getter
+    @NonNull
     private String operationTime;
+    @Getter
+    @NonNull
     private String walletCreation;
+    @Getter
+    @NonNull
     private String CurrencyUnit;
+    @Getter
+    @NonNull
     private OperationType operationType;
+    @Getter
+    @NonNull
     private Money walletAmount;
+    @Getter
+    @NonNull
     private Money previousAmount;
+    @Getter
+    @NonNull
     private Money netOperationAmount;
+    @Getter
+    @NonNull
     private Money grossOperationAmount;
+    @Getter
+    @NonNull
     private ArrayList<Fee> fees;
 
     private Operation(UUID id, UUID walletId, String description, String operationTime, String walletCreation,
@@ -39,7 +81,10 @@ public class Operation implements IOperation {
         this.fees = fees;
     }
 
-    public static Operation Create(String currencyUnit) {
+    private Operation() {
+    }
+
+    public Operation Create(String currencyUnit) {
         var creationTime = LocalDate.now().toString();
 
         /// TODO validate currency unit
@@ -71,7 +116,6 @@ public class Operation implements IOperation {
         }
 
         return netAmount;
-
     }
 
     public Operation Debit(Money grossAmount, ArrayList<Fee> fees) {
@@ -114,54 +158,6 @@ public class Operation implements IOperation {
                 netAmount,
                 grossAmount,
                 new ArrayList<Fee>());
-    }
-
-    public String getOperationTime() {
-        return this.operationTime;
-    }
-
-    public String getWalletCreation() {
-        return this.walletCreation;
-    }
-
-    public void setWalletCreation(String walletCreation) {
-        this.walletCreation = walletCreation;
-    }
-
-    public String getCurrencyUnit() {
-        return this.CurrencyUnit;
-    }
-
-    public OperationType getOperationType() {
-        return this.operationType;
-    }
-
-    public UUID getWalletId() {
-        return this.walletId;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public Money getWalletAmount() {
-        return this.walletAmount;
-    }
-
-    public Money getPreviousAmount() {
-        return this.previousAmount;
-    }
-
-    public Money getNetOperationAmount() {
-        return this.netOperationAmount;
-    }
-
-    public Money getGrossOperationAmount() {
-        return this.grossOperationAmount;
-    }
-
-    public ArrayList<Fee> getFees() {
-        return this.fees;
     }
 
     @Override
